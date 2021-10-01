@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.6.0.min.js"> </script>
+    <title>Document</title>
+</head>
+<body>
+    <h3>formulario </h3>
+    <form action="" method="post">
+        <input type="text" name="id" id="id" placeholder="id">
+        <input type="text" name="room" id="room" placeholder="room">
+        <input type="text" name="stars" id="stars" placeholder="stars">
+        <input type="text" name="category_id" id="category_id" placeholder="category_id">
+        <input type="text" name="description" id="description" placeholder="description">
+        <input type="button" value="post" id="send">
+        <input type="button" value="get" id="getbtn">
+        
+    </form>
+    <p id="getInfo"></p>
+
+    <script>
+        var id= document.getElementById('id');
+        var room= document.getElementById('room');
+        var stars= document.getElementById('stars');
+        var category_id= document.getElementById('category_id');
+        var description= document.getElementById('description');
+        var send= document.getElementById('send');
+        var getbtn= document.getElementById('getbtn');
+        var getInfo= document.getElementById('getInfo');
+            
+
+        send.addEventListener("click",function(){
+            postDates();
+        })
+        getbtn.addEventListener("click",function(){
+            getDates();
+        })
+        function getDates(){
+            const ajax = $.ajax({
+                method:"GET",
+                url:"https://gd67668ef6ca690-marlongbd.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room"
+            })
+            ajax.done(function(g){
+                getInfo.innerHTML = "";
+                console.log(g);
+                console.log("the message is:");
+                console.log(g);
+                let array1 = [] 
+                for (let i = 0; i < g.items.length; i++) {
+                  array1.push(g.items[i])  
+                }
+                    array1.forEach(element => {
+                        let str = element.id + " " + element.room + " " + element.stars 
+                                    + " " + element.category_id + " " + element.description;               
+                            getInfo.innerHTML += str + "<br>"           
+                    });      
+            })
+            ajax.fail(function(g){
+                console.log(g);
+            })
+        }
+            //-------------------
+    function postDates(){
+        var ajax = $.ajax({
+          type:"POST",
+          url:"https://gd67668ef6ca690-marlongbd.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room",
+          data:{
+              id:parseInt(id.value),
+              room:room.value,
+              stars:parseInt(stars.value),
+              category_id:parseInt(category_id.value),
+              description:description.value
+            } 
+        })
+        ajax.done(function(g){
+            console.log("the message is:");
+            console.log(g);
+        })
+        ajax.fail(function(g){
+            console.log("not send sorry");
+            console.log(g);
+        })
+    } 
+        
+        
+    </script>
+</body>
+</html>
