@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="jquery-3.6.0.min.js"> </script>
-    <title>document</title>
+    <title>Reservas</title>
 </head>
 <style>
     *{
@@ -38,15 +38,13 @@
 <body>
     <h3>formulario </h3>
     <form action="" method="post">
-        <input type="text" name="id" id="id" placeholder="id">
-        <input type="text" name="room" id="room" placeholder="room">
-        <input type="text" name="stars" id="stars" placeholder="stars">
-        <input type="text" name="category_id" id="category_id" placeholder="category_id">
-        <input type="text" name="description" id="description" placeholder="description">
-        <input type="button" value="post" id="send">
-        <input type="button" value="get" id="getbtn">
-        
-
+        <input type="text" name="id" id="id" placeholder="ID">
+        <input type="text" name="room" id="room" placeholder="Nombre">
+        <input type="text" name="stars" id="stars" placeholder="Estrellas">
+        <input type="text" name="category_id" id="category_id" placeholder="Categoria">
+        <input type="text" name="description" id="description" placeholder="Descripción">
+        <input type="button" value="Subir datos" id="send">
+        <input type="button" value="Obtener valores actuales" id="getbtn">
     </form>
 
     <h2>Tabla:</h2>
@@ -81,7 +79,7 @@
         function getDates(){
             const ajax = $.ajax({
                 method:"GET",
-                url:"https://gd67668ef6ca690-marlongbd.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room"
+                url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room"
             })
             ajax.done(function(g){
                 getInfo.innerHTML = "";
@@ -99,13 +97,13 @@
             })
             ajax.fail(function(g){
                 console.log(g);
+                window.alert("Ocurrió un error en la consulta, intente de nuevo");
             })
         }
-            //-------------------
     function postDates(){
         var ajax = $.ajax({
           type:"POST",
-          url:"https://gd67668ef6ca690-marlongbd.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room",
+          url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room",
           data:{
               id:parseInt(id.value),
               room:room.value,
@@ -117,14 +115,20 @@
         ajax.done(function(g){
             console.log("the message is:");
             console.log(g);
+            window.alert('Datos cargados con éxito');
+            
+            id.value=null;
+            room.value=null;
+            stars.value=null;
+            category_id.value=null;
+            description.value=null;
         })
         ajax.fail(function(g){
             console.log("not send sorry");
             console.log(g);
+            window.alert('Hubo un error al insertar los datos, intente de nuevo');
         })
     } 
-        
-        
     </script>
 </body>
 </html>

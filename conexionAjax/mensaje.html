@@ -32,10 +32,13 @@
     <form action="" method="POST">
 
         <!--<input type="text" name="mensaje" id="mensaje" placeholder="Escriba un mensaje...">-->
-        <textarea name="mensaje" id="mensaje" cols="30" rows="10" placeholder="Escriba su mensaje..."></textarea>
+
+        <textarea name="mensaje" id="mensaje" cols="30" rows="10" placeholder="Escriba su mensaje..."></textarea>;
         <input type="button" value="Enviar" id="enviar">
 
     </form>
+
+    <a href="index.html">Volver al inicio</a>
 
     <script>
 
@@ -56,10 +59,13 @@
             ajax.done(function(g){
                 console.log("the message is:");
                 console.log(g);
+                window.alert('Mensaje enviado');
+                mensaje.value=null;
             })
             ajax.fail(function(g){
                 console.log("not send sorry");
                 console.log(g);
+                window.alert('Hubo un error al enviar el mensaje, intente de nuevo');
             })
         } 
 
