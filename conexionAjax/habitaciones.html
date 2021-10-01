@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.6.0.min.js"> </script>
+    <title>Reservas</title>
+</head>
+<style>
+    *{
+        margin:0;
+        padding:0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .container_form{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .container_form form div:first-child{
+        margin-top: 30px;
+    }
+     .container_form form div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    } 
+
+
+    .container_form h3{
+        font-size: 40px;
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 40px 0px 10px;
+        text-transform: capitalize;
+    }
+    form input{
+        padding:10px 15px;
+        margin:0 5px;
+        outline: none;
+        border:2px solid #bebebe;
+        border-radius: 6px;
+        
+    }
+    form input:active{
+        border:2px solid #4d7ce0;
+
+    }
+    form .btn{
+        border:none;
+        border-radius: 6px;
+        border:2px solid #bebebe;
+        cursor: pointer;
+        outline: none;
+        background-color: #ffffff;
+    }
+    form .btn:hover {
+        border:2px solid #4d7ce0;
+        box-shadow: 0px 0px 7px #b3b3b3;
+    }
+    table, th, td {
+      border:1px solid black;
+      
+        
+    }
+    
+    
+    table{
+        display: flex;
+        justify-content: center;
+        max-width:500px;
+        margin:0 auto;
+        
+    }
+    table:first-child{
+        display: flex;
+        justify-content: center;
+        margin:0 auto;
+        margin-top:30px ;
+
+    }
+    td{
+        width: 100px;
+        height: 40px;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div class="container_form">
+        <div>
+
+            <h3>Agregar Habitaciones </h3>
+        </div>
+        <div>
+
+            <form action="" method="post">
+                <div>
+                    <input type="text" name="id" id="id" placeholder="ID">
+                    <input type="text" name="room" id="room" placeholder="Nombre">
+                    <input type="text" name="stars" id="stars" placeholder="Estrellas">
+                    <input type="text" name="category_id" id="category_id" placeholder="Categoria">
+                    <input type="text" name="description" id="description" placeholder="Descripción">
+                </div>
+                <div>
+                    <input type="button" value="Subir datos" id="sendbtn">
+                    <input type="button" value="Obtener valores actuales" id="getbtn">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- <h2>Tabla:</h2> -->
+    <div id = "container_table"></div>
+
+    <a href="mensaje.html">Dejar un mensaje</a>
+    
+
+    
+
+    <script>
+        var id= document.getElementById('id');
+        var room= document.getElementById('room');
+        var stars= document.getElementById('stars');
+        var category_id= document.getElementById('category_id');
+        var description= document.getElementById('description');
+        
+        var sendbtn= document.getElementById('sendbtn');
+        var getbtn= document.getElementById('getbtn');
+        
+            
+        //Table
+        var container_table= document.getElementById('container_table');
+        container_table.innerHTML=
+            "<table><tr><td>ID</td><td>Nombre</td><td>Estrellas"
+            +"</td><td>Categoria</td><td>Descripcion</td></tr></table>"
+        
+
+        sendbtn.addEventListener("click",function(){
+            postDates();
+        })
+        getbtn.addEventListener("click",function(){
+            getDates();
+        })
+        function getDates(){
+            const ajax = $.ajax({
+                method:"GET",
+                url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room"
+            })
+            ajax.done(function(g){
+                
+                container_table.innerHTML=""
+                container_table.innerHTML=
+                    "<table><tr><td>ID</td><td>Nombre</td><td>Estrellas"
+                    +"</td><td>Categoria</td><td>Descripcion</td></tr></table>"
+                let array1 = []
+                for (let i = g.items.length-1; i >= 0; i--) {
+                    array1.push(g.items[i]) 
+                }
+                array1.forEach(element => {
+                    container_table.innerHTML+="<table class='default'><tr><td>"+element.id+"</td><td>"+element.room+"</td><td>"+element.stars+"</td><td>"+element.category_id+"</td><td>"+element.description+"</td></tr></table>"           
+                });      
+                console.log("datos obtenidos");
+            })
+            ajax.fail(function(g){
+                console.log(g);
+                alert("Ocurrió un error en la consulta, intente de nuevo");
+            })
+        }
+    function postDates(){
+        var ajax = $.ajax({
+          type:"POST",
+          url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room",
+          data:{
+              id:parseInt(id.value),
+              room:room.value,
+              stars:parseInt(stars.value),
+              category_id:parseInt(category_id.value),
+              description:description.value
+            } 
+        })
+        ajax.done(function(res){
+            console.log(res);
+            alert('Datos cargados con éxito');
+            
+            id.value=null;
+            room.value=null;
+            stars.value=null;
+            category_id.value=null;
+            description.value=null;
+        })
+        ajax.fail(function(res){
+            console.log(res);
+            alert('Hubo un error al insertar los datos, intente de nuevo');
+        })
+    } 
+    </script>
+</body>
+</html>
