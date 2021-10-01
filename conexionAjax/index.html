@@ -7,6 +7,34 @@
     <script src="jquery-3.6.0.min.js"> </script>
     <title>Document</title>
 </head>
+<style>
+    *{
+        margin:0;
+        padding:0;
+    }
+    .container{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .container h3{
+        font-size: 40px;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-bottom: 20px;
+    }
+    input{
+        padding:10px 15px;
+    }
+    table, th, td {
+      border:1px solid black;
+    }
+    td{
+        width: 100px;
+        height: 40px;
+    }
+</style>
+
 <body>
     <h3>formulario </h3>
     <form action="" method="post">
@@ -18,7 +46,13 @@
         <input type="button" value="post" id="send">
         <input type="button" value="get" id="getbtn">
         
+
     </form>
+
+    <h2>Tabla:</h2>
+    <div id = "container_table"></div>
+    
+
     <p id="getInfo"></p>
 
     <script>
@@ -31,6 +65,10 @@
         var getbtn= document.getElementById('getbtn');
         var getInfo= document.getElementById('getInfo');
             
+        //Table
+        var container_table= document.getElementById('container_table');
+
+        container_table.innerHTML="<table class='default'><tr><td>ID</td><td>Nombre</td><td>Estrellas</td><td>Categoria</td><td>Descripcion</td></tr></table>"
 
         send.addEventListener("click",function(){
             postDates();
@@ -45,6 +83,7 @@
             })
             ajax.done(function(g){
                 getInfo.innerHTML = "";
+                container_table.innerHTML="<table class='default'><tr><td>ID</td><td>Nombre</td><td>Estrellas</td><td>Categoria</td><td>Descripcion</td></tr></table>"
                 console.log(g);
                 console.log("the message is:");
                 console.log(g);
@@ -53,9 +92,7 @@
                   array1.push(g.items[i])  
                 }
                     array1.forEach(element => {
-                        let str = element.id + " " + element.room + " " + element.stars 
-                                    + " " + element.category_id + " " + element.description;               
-                            getInfo.innerHTML += str + "<br>"           
+                        container_table.innerHTML+="<table class='default'><tr><td>"+element.id+"</td><td>"+element.room+"</td><td>"+element.stars+"</td><td>"+element.category_id+"</td><td>"+element.description+"</td></tr></table>"           
                     });      
             })
             ajax.fail(function(g){
