@@ -26,6 +26,18 @@
         display: block;
         margin: auto;
     }
+    .btn{
+        border:none;
+        border-radius: 6px;
+        border:2px solid transparent;
+        cursor: pointer;
+        outline: none;
+        background-color: #e4e4e4;
+    }
+    .btn:hover {
+        border:2px solid #4d7ce0;
+        box-shadow: 0px 0px 7px #b3b3b3;
+    }
 </style>
 <body>
     <h1>Dejenos un mensaje:</h1>
@@ -34,11 +46,11 @@
         <!--<input type="text" name="mensaje" id="mensaje" placeholder="Escriba un mensaje...">-->
 
         <textarea name="mensaje" id="mensaje" cols="30" rows="10" placeholder="Escriba su mensaje..."></textarea>
-        <input type="button" value="Enviar" id="enviar">
+        <input type="button" value="Enviar" id="enviar" class = 'btn'>
 
     </form>
 
-    <a href="habitaciones.html">Volver al inicio</a>
+    <a href="index.html"><input type="button" value="Volver al inicio"></a>
 
     <script>
 
