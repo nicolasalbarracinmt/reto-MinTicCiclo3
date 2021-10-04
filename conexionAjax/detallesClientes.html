@@ -61,7 +61,7 @@
         display: flex;
         justify-content: center;
         max-width:700px;
-        margin:60px auto 15px;
+        margin:0px auto 15px;
       border:1px solid black;
 
         
@@ -74,11 +74,11 @@
         margin-top:30px ;
 
     }
+   
     td{
         width: 200px;
         height: 40px;
         text-align: center;
-        border: 1px solid black;
        
     }
     td input{
@@ -92,7 +92,6 @@
     .container_table_dc {
         display: flex;
         flex-direction: column;
-        justify-content: ;
         max-width: 700px;
         margin:auto;
 
@@ -106,7 +105,7 @@
         margin:0 5px;
     }
     .table_dc_f2, .table_dc_f3{
-        display: none;
+        display: block;
     }
     
 </style>
@@ -120,37 +119,39 @@
             <p for="entrada">¿Cuál ID quiere consultar?</p>
         </div>
         <div>
-
-            <input type="text" name="entrada" placeholder="ID">
+            <input type="text" name="entrada" placeholder="ID" id="textId">
             <input type="button" value="send" id="sendbtn" class="btn">
         </div>
     </form>
     <!-- clinete -->
     <div class="container_table_dc">
 
-    <table> 
+    <table id="table_dc_1"> 
         <tr class="table_dc_f1">
             <td>Id</td>
             <td>Nombre</td>
             <td>Email</td>
             <td>Edad</td>
         </tr>    
-        <tr class="table_dc_f2">
+        <!-- <tr class="table_dc_f2">
             <td>1 </td>
             <td>malrong</td>
             <td>marlong@gmail</td>
             <td>17</td>
-        </tr>
-        <tr class="table_dc_f3">
+        </tr> -->
+        <!-- <tr class="table_dc_f3">
             <td><input type="text" placeholder="Id"></td>
             <td><input type="text" placeholder="Nombre"></td>
             <td><input type="text" placeholder="Email"></td>
             <td><input type="text" placeholder="Edad"></td>
-        </tr>
+        </tr> -->
+    </table>
+    <table id="table_dc_2">
+
     </table>
     <div class="container_btns">
-        <input type="button" value="actualizar" class="btn">
-        <input type="button" value="eliminar" class="btn">
+        <input type="button" value="actualizar" class="btn" id="modbtn">
+        <input type="button" value="eliminar" class="btn"id="deletebtn">
     </div>
 </div>
 
@@ -183,31 +184,65 @@
 
     </div>
     <script>
+        //tables
+        var table_dc_1 = document.getElementById("table_dc_1")
+        var table_dc_2 = document.getElementById("table_dc_2")
+        var table_dc_f2 = document.querySelectorAll(".table_dc_f2")
+            //inputs
         var sendbtn = document.getElementById("sendbtn")
+        var deletebtn = document.getElementById("deletebtn")
+        var textId = document.getElementById("textId")
+
+        
+
+        let idValue = 0
+            //listeners
         sendbtn.addEventListener("click",function(){
             getDates()
         })
+        deletebtn.addEventListener("click",function(){
+            deleteDates()
+        })
+
         //obtener datos para la tabla de clientes
         function getDates(){
-            const ajax = $.ajax({
+            let ajax = $.ajax({
                 method:"GET",
                 url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client"
             })
             ajax.done(function(g){
-                
                 let array1 = []
-                for (let i = g.items.length-1; i >= 0; i--) {
-                    array1.push(g.items[i]) 
+                for (let i = g.items.length-1; i >= 0; i--){
+                    array1.unshift(g.items[i]) 
                 }
-                array1.forEach(element => {
-                    container_table.innerHTML+="<table class='default'><tr><td>"+element.id+"</td><td>"+element.room+"</td><td>"+element.stars+"</td><td>"+element.category_id+"</td><td>"+element.description+"</td></tr></table>"           
-                });      
-                console.log("datos obtenidos");
+                    idValue = parseInt(textId.value);
+                let arrayFilter = array1.filter((x)=>x.id == idValue)
+                    table_dc_2.innerHTML='<tr class="table_dc_f2"><td>'+  arrayFilter[0].id  +' </td><td>'+  arrayFilter[0].name  +'</td><td>'+  arrayFilter[0].email  +'</td><td>'+  arrayFilter[0].age  +'</td></tr>'             
             })
             ajax.fail(function(g){
                 console.log(g);
                 window.alert("Ocurrió un error en la consulta, intente de nuevo");
             })
         }
+        //deleteDates NO FUNCIONA
+        function deleteDates(){
+            
+             let ajax = $.ajax({
+                url: "https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client",
+                type: "DELETE",
+                data: {
+                    "id":idValue
+                }
+            })
+            ajax.done(function(){
+                console.log("clinete borrado");
+            })
+            ajax.fail(function(x) {
+                console.log("ocurrio un error");
+                console.log("------------------");
+                console.log(x);
+            })
+        }
+        //falta funcion para modificar datos
     </script>
 </body>

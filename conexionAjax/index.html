@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.6.0.min.js"></script>
     <title>Inicio Reservas</title>
 </head>
 <style>
@@ -44,8 +45,7 @@
         display: flex;
         justify-content: center;
         width:400px;
-        margin:60px auto 15px;
-      border:1px solid black;
+        margin:0px auto 15px;
 
         
     }
@@ -81,19 +81,18 @@
         padding:2px 10px;
         width:auto;
         position: absolute;
-        margin-left: 85px;
+        margin-left: 95px;
         
     }
-    .container_table_in1{
-        display:none;
-    }
-    .container_dates_in{
-        display:none;
-    }
-    
-    
-    
 
+    .container_table_in1{
+        display:none;  
+    }
+  
+    .container_dates_in{
+        display: none;
+    }
+    
 </style>
 <body>
     <header class="header">
@@ -116,33 +115,48 @@
                 <input type="button" value="Enviar Mensaje"></a>
         </div>
         <div >
-            <table class="container_table">
+            <table>
                 <tr class="container_table_in1">
                     <td>ID</td>
                     <td>Nombre</td>
                 </tr>
-               <!--  <div class="container_dates_in">
-
-                    <tr class="container_table_in2">
-                        <td>1</td>
-                        <td>marlong <a href="detallesClientes.html"><input type="button" value="Mod"></a></td>
-                    </tr>
-                    <tr class="container_table_in2">
-                        <td>1</td>
-                        <td>marlong <a href="detallesClientes.html"><input type="button" value="Mod"></a></td>
-                    </tr>
-                </div> -->
+            </table>
+            <table class="container_table" id="container_table_id">
+  
             </table>
         </div>
     </main>
     <script>
         var verClientesBtn= document.getElementById("clientes");
         var verHabitacionesBtn= document.getElementById("habitaciones");
+        var container_table_id = document.getElementById("container_table_id")
 
+        var container_table_in = document.querySelector(".container_table_in")
         var container_table_in1 = document.querySelector(".container_table_in1")
+        
         verClientesBtn.addEventListener("click",function(){
-            container_table_in1.style = 'display:block';
+            container_table_in1.style = "display:block"
+            let ajaxCliente = $.ajax({
+                method:"GET",
+                url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client"
+            })
+            ajaxCliente.done(function(g) {
+                let array1 = []
+                for (let i = g.items.length-1; i >= 0; i--) {
+                    array1.unshift(g.items[i]) 
+                }
+                array1.forEach(element => {
+                    console.log(element);
+                    container_table_id.innerHTML += '  <tr class="container_table_in2"><td>'+element.id+'</td><td>'+element.name+'<a href="detallesClientes.html"><input type="button" value="Mod"></a></td></tr>'  
+                }); 
+                container_table_id.style = 'display:block';
+                console.log("datos obtenidos");   
+            })
+            ajaxCliente.fail(function(g){
+                console.log("errrror" ,g);
+            })
         })
+        //falta hacer ajax para poder ver las habitaciones
         verHabitacionesBtn.addEventListener("click",function(){
             container_table_in1.style = 'display:block';
         })

@@ -60,50 +60,36 @@
         border:2px solid #4d7ce0;
         box-shadow: 0px 0px 7px #b3b3b3;
     }
-    th, td {
-      
-        
-    }
-    
-    
     table{
         display: flex;
         justify-content: center;
         max-width:600px;
         margin:0 auto;
-      border:1px solid black;
-
-        
+      border:1px solid black;   
     }
     table:first-child{
         display: flex;
         justify-content: center;
         margin:0 auto;
         margin-top:30px ;
-
     }
     td{
         width: 200px;
         height: 40px;
-        text-align: center;
-       
+        text-align: center;  
     }
     tr{
         border:1px solid black;
     }
 </style>
-
 <body>
-
     <a href="mensaje.html"><input type="button" value="Dejanos un mensaje"></a>
     <a href="index.html"><input type="button" value="Volver al inicio"></a>
     <div class="container_form">
         <div>
-
             <h3>Agregar Cliente</h3>
         </div>
         <div>
-
             <form action="" method="post">
                 <div>
                     <input type="text" name="id" id="id" placeholder="ID">
@@ -126,10 +112,11 @@
     
 
     <script>
+        const urlOracle = "https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client"
         var id= document.getElementById('id');
-        var name= document.getElementById('nombre');
-        var email= document.getElementById('email');
-        var age= document.getElementById('age');
+        var nombre= document.getElementById('nombre');
+        var email= document.getElementById('correo');
+        var age= document.getElementById('edad');
         
         var sendbtn= document.getElementById('sendbtn');
         var getbtn= document.getElementById('getbtn');
@@ -149,9 +136,9 @@
             getDates();
         })
         function getDates(){
-            const ajax = $.ajax({
+            let ajax = $.ajax({
                 method:"GET",
-                url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client"
+                url:urlOracle,
             })
             ajax.done(function(g){
                 
@@ -166,38 +153,36 @@
                 array1.forEach(element => {
                     container_table.innerHTML+="<table class='default'><tr><td>"+element.id+"</td><td>"+element.name+"</td><td>"+element.email+"</td><td>"+element.age+"</td></tr></table>"           
                 });      
-                console.log("datos obtenidos");
             })
             ajax.fail(function(g){
                 console.log(g);
                 alert("Ocurrió un error en la consulta, intente de nuevo");
             })
         }
-    function postDates(){
-        var ajax = $.ajax({
-          type:"POST",
-          url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client",
-          data:{
-              id:parseInt(id.value),
-              name:name.value,
-              email:email.value,
-              age:parseInt(age.value)
-            } 
-        })
-        ajax.done(function(res){
-            console.log(res);
-            window.alert('Datos cargados con éxito');
-            
-            id.value=null;
-            name.value=null;
-            email.value=null;
-            age.value=null;
-        })
-        ajax.fail(function(res){
-            console.log(res);
-            window.alert('Hubo un error al insertar los datos, intente de nuevo');
-        })
-    } 
+        function postDates(){
+            let ajax = $.ajax({
+            type:"POST",
+            url:urlOracle,
+            data:{
+                id:parseInt(id.value),
+                //hay un error al agregar un nombre
+                name:nombre.value,
+                email:email.value,
+                age:parseInt(age.value)
+                } 
+            })
+            ajax.done(function(res){
+                console.log(res);
+                window.alert('Datos cargados con éxito');
+                
+                id.value,nombre.value
+                ,email.value,age.value = null;
+            })
+            ajax.fail(function(res){
+                console.log(res);
+                window.alert('Hubo un error al insertar los datos, intente de nuevo');
+            })
+        } 
     </script>
 </body>
 </html>
