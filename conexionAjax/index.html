@@ -160,6 +160,33 @@
         verHabitacionesBtn.addEventListener("click",function(){
             container_table_in1.style = 'display:block';
         })
+
+        verHabitacionesBtn.addEventListener("click",function(){
+            container_table_in1.style = "display:block"
+            let ajaxCliente = $.ajax({
+                method:"GET",
+                url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room"
+            })
+            ajaxCliente.done(function(g) {
+                let array1 = []
+                for (let i = g.items.length-1; i >= 0; i--) {
+                    array1.unshift(g.items[i]) 
+                }
+                array1.forEach(element => {
+                    console.log(element);
+                    container_table_id.innerHTML += '  <tr class="container_table_in2"><td>'+element.id+'</td><td>'+element.room+'<a href="detallesClientes.html"><input type="button" value="Mod"></a></td></tr>'  
+                }); 
+                container_table_id.style = 'display:block';
+                console.log("datos obtenidos");   
+            })
+            ajaxCliente.fail(function(g){
+                console.log("errrror" ,g);
+            })
+        })
+        //falta hacer ajax para poder ver las habitaciones
+        verHabitacionesBtn.addEventListener("click",function(){
+            container_table_in1.style = 'display:block';
+        })
     </script>
     </body>
 </html>

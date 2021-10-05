@@ -186,8 +186,11 @@
             console.log(res);
             alert('Datos cargados con éxito');
             
-            id.value,room.value,stars.value
-            ,category_id.value,description.value = null;
+            id.value=null;
+            room.value=null;
+            stars.value=null;
+            category_id.value=null;
+            description.value = null;
         })
         ajax.fail(function(res){
             console.log(res);

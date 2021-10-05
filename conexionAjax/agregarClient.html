@@ -114,7 +114,7 @@
     <script>
         const urlOracle = "https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client"
         var id= document.getElementById('id');
-        var nombre= document.getElementById('nombre');
+        var names= document.getElementById('nombre');
         var email= document.getElementById('correo');
         var age= document.getElementById('edad');
         
@@ -165,8 +165,7 @@
             url:urlOracle,
             data:{
                 id:parseInt(id.value),
-                //hay un error al agregar un nombre
-                name:nombre.value,
+                name:names.value,
                 email:email.value,
                 age:parseInt(age.value)
                 } 
@@ -175,8 +174,10 @@
                 console.log(res);
                 window.alert('Datos cargados con éxito');
                 
-                id.value,nombre.value
-                ,email.value,age.value = null;
+                id.value=null;
+                names.value=null;
+                email.value=null;
+                age.value = null;
             })
             ajax.fail(function(res){
                 console.log(res);

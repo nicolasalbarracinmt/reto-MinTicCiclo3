@@ -82,8 +82,10 @@
        
     }
     td input{
-        width:70% ;
+        width:50% ;
         padding:5px;
+        position: relative !important;
+    left:30px !important;
         border:none;
         outline: none;
         border:2px solid #bebebe;
@@ -107,9 +109,14 @@
     .table_dc_f2, .table_dc_f3{
         display: block;
     }
+    .table_dc_f3{
+        display: flex;
+        justify-content: end;
+    }
     
 </style>
 <body>
+    <a href="index.html"><input type="button" value="Volver al inicio"></a>
     <header class="header">
         <h1>Detalle clientes</h1>
     </header>
@@ -133,18 +140,17 @@
             <td>Email</td>
             <td>Edad</td>
         </tr>    
-        <!-- <tr class="table_dc_f2">
+        <!--<tr class="table_dc_f2">
             <td>1 </td>
             <td>malrong</td>
             <td>marlong@gmail</td>
             <td>17</td>
         </tr> -->
-        <!-- <tr class="table_dc_f3">
-            <td><input type="text" placeholder="Id"></td>
-            <td><input type="text" placeholder="Nombre"></td>
-            <td><input type="text" placeholder="Email"></td>
-            <td><input type="text" placeholder="Edad"></td>
-        </tr> -->
+        <tr class="table_dc_f3">
+            <td><input type="text" placeholder="Nombre" id="names"></td>
+            <td><input type="text" placeholder="Email" id="email"></td>
+            <td><input type="text" placeholder="Edad" id="age"></td>
+        </tr> 
     </table>
     <table id="table_dc_2">
 
@@ -191,7 +197,11 @@
             //inputs
         var sendbtn = document.getElementById("sendbtn")
         var deletebtn = document.getElementById("deletebtn")
+        var putbtn = document.getElementById("modbtn")
         var textId = document.getElementById("textId")
+        var names= document.getElementById('names');
+        var email= document.getElementById('email');
+        var age= document.getElementById('age');
 
         
 
@@ -202,6 +212,9 @@
         })
         deletebtn.addEventListener("click",function(){
             deleteDates()
+        })
+        putbtn.addEventListener("click",function(){
+            putDates()
         })
 
         //obtener datos para la tabla de clientes
@@ -220,29 +233,64 @@
                     table_dc_2.innerHTML='<tr class="table_dc_f2"><td>'+  arrayFilter[0].id  +' </td><td>'+  arrayFilter[0].name  +'</td><td>'+  arrayFilter[0].email  +'</td><td>'+  arrayFilter[0].age  +'</td></tr>'             
             })
             ajax.fail(function(g){
+                alert("Ocurrió un error en la consulta, intente de nuevo");
                 console.log(g);
-                window.alert("Ocurrió un error en la consulta, intente de nuevo");
-            })
+            });
+            
         }
         //deleteDates NO FUNCIONA
         function deleteDates(){
             
-             let ajax = $.ajax({
-                url: "https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client",
-                type: "DELETE",
-                data: {
-                    "id":idValue
-                }
-            })
-            ajax.done(function(){
-                console.log("clinete borrado");
-            })
-            ajax.fail(function(x) {
-                console.log("ocurrio un error");
-                console.log("------------------");
-                console.log(x);
-            })
+            let data = {
+                id:parseInt(textId.value)
+            }
+
+            $.ajax({
+                type: 'DELETE',
+                url: 'https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client',
+                contentType: 'application/json',
+                data: JSON.stringify(data), // access in body
+            }).done(function () {
+                console.log('SUCCESS');
+                window.alert("Datos eliminados correctamente");
+                table_dc_2.innerHTML=""
+            }).fail(function (msg) {
+                console.log('FAIL');
+                window.alert("Ocurrió un error");
+            }).always(function (msg) {
+                console.log('ALWAYS');
+            });
+            
         }
+
+        function putDates(){
+            let data = {
+                    
+                id:parseInt(textId.value),
+                name:names.value,
+                email:email.value,
+                age:parseInt(age.value)
+            
+            }
+
+            $.ajax({
+                type: 'PUT',
+                url: 'https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client',
+                contentType: 'application/json',
+                data: JSON.stringify(data), // access in body
+            }).done(function () {
+                console.log('SUCCESS');
+                window.alert("Datos cambiados satisfactoriamente");
+            }).fail(function (msg) {
+                console.log('FAIL');
+                window.alert("Falló el proceso");
+            }).always(function (msg) {
+                console.log('ALWAYS');
+            });
+        }
+        
+        
         //falta funcion para modificar datos
     </script>
 </body>
+</html>
