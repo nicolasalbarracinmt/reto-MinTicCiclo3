@@ -118,7 +118,7 @@
 <body>
     <a href="index.html"><input type="button" value="Volver al inicio"></a>
     <header class="header">
-        <h1>Detalle clientes</h1>
+        <h1>Detalle Habitaciones</h1>
     </header>
     <form action="" class="form_dc">
         <div>
@@ -130,37 +130,33 @@
             <input type="button" value="send" id="sendbtn" class="btn">
         </div>
     </form>
-    <!-- clinete -->
+    <!-- habitacion -->
     <div class="container_table_dc">
 
     <table id="table_dc_1"> 
-        <tr class="table_dc_f1">
-            <td>Id</td>
-            <td>Nombre</td>
-            <td>Email</td>
-            <td>Edad</td>
-        </tr>    
-        <!--<tr class="table_dc_f2">
-            <td>1 </td>
-            <td>malrong</td>
-            <td>marlong@gmail</td>
-            <td>17</td>
-        </tr> -->
-        <tr class="table_dc_f3">
-            <td><input type="text" placeholder="Nombre" id="names"></td>
-            <td><input type="text" placeholder="Email" id="email"></td>
-            <td><input type="text" placeholder="Edad" id="age"></td>
-        </tr> 
+        <tr>
+            <td id="id">ID </td>
+            <td id="names">Nombre</td>
+            <td id="estrellas">Estrellas</td>
+            <td id="categoria">Categoria</td>
+            <td id="descripcion">descripcion</td>
+        </tr>
+        <tr>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+        </tr>
     </table>
     <table id="table_dc_2">
-
     </table>
     <div class="container_btns">
         <input type="button" value="actualizar" class="btn" id="modbtn">
         <input type="button" value="eliminar" class="btn"id="deletebtn">
     </div>
-</div>
-
+</div>    
+    
     <div class="container_table">
 
     </div>
@@ -174,12 +170,13 @@
         var deletebtn = document.getElementById("deletebtn")
         var putbtn = document.getElementById("modbtn")
         var textId = document.getElementById("textId")
-        var names= document.getElementById('names');
-        var email= document.getElementById('email');
-        var age= document.getElementById('age');
+        var id= document.getElementById('id');
+        var names= document.getElementById('nombre');
+        var estrellas= document.getElementById('estrellas');
+        var categoria= document.getElementById('categoria');
+        var descripcion= document.getElementById('descripcion');
 
         
-
         let idValue = 0
             //listeners
         sendbtn.addEventListener("click",function(){
@@ -192,12 +189,12 @@
             putDates()
         })
 
-        var urlOracle = "https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client"
+        var urlOracle = "https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room"
         //obtener datos para la tabla de clientes
         function getDates(){
             let ajax = $.ajax({
                 method:"GET",
-                url:urlOracle
+                url: urlOracle
             })
             ajax.done(function(g){
                 let array1 = []

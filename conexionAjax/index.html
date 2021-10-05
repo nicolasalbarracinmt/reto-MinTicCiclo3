@@ -136,6 +136,7 @@
         
         verClientesBtn.addEventListener("click",function(){
             container_table_in1.style = "display:block"
+            container_table_id.innerHTML = ""
             let ajaxCliente = $.ajax({
                 method:"GET",
                 url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client"
@@ -147,7 +148,9 @@
                 }
                 array1.forEach(element => {
                     console.log(element);
-                    container_table_id.innerHTML += '  <tr class="container_table_in2"><td>'+element.id+'</td><td>'+element.name+'<a href="detallesClientes.html"><input type="button" value="Mod"></a></td></tr>'  
+                    container_table_id.innerHTML += '  <tr class="container_table_in2"><td>'+
+                        element.id+'</td><td>'+element.name+
+                            '<a href="detallesClientes.html"><input type="button" value="Mod"></a></td></tr>'  
                 }); 
                 container_table_id.style = 'display:block';
                 console.log("datos obtenidos");   
@@ -163,6 +166,7 @@
 
         verHabitacionesBtn.addEventListener("click",function(){
             container_table_in1.style = "display:block"
+            container_table_id.innerHTML = ""
             let ajaxCliente = $.ajax({
                 method:"GET",
                 url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room"
@@ -174,7 +178,7 @@
                 }
                 array1.forEach(element => {
                     console.log(element);
-                    container_table_id.innerHTML += '  <tr class="container_table_in2"><td>'+element.id+'</td><td>'+element.room+'<a href="detallesClientes.html"><input type="button" value="Mod"></a></td></tr>'  
+                    container_table_id.innerHTML += '  <tr class="container_table_in2"><td>'+element.id+'</td><td>'+element.room+'<a href="detallesRoom.html"><input type="button" value="Mod"></a></td></tr>'  
                 }); 
                 container_table_id.style = 'display:block';
                 console.log("datos obtenidos");   

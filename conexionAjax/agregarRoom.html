@@ -145,10 +145,12 @@
         getbtn.addEventListener("click",function(){
             getDates();
         })
+
+        const urlOracle = "https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room"
         function getDates(){
             const ajax = $.ajax({
                 method:"GET",
-                url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room"
+                url:urlOracle
             })
             ajax.done(function(g){
                 
@@ -173,7 +175,7 @@
     function postDates(){
         var ajax = $.ajax({
           type:"POST",
-          url:"https://ge8d0967bd45c71-room.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/room/room",
+          url:urlOracle,
           data:{
               id:parseInt(id.value),
               room:room.value,
