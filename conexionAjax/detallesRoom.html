@@ -135,18 +135,18 @@
 
     <table id="table_dc_1"> 
         <tr>
-            <td id="id">ID </td>
-            <td id="names">Nombre</td>
-            <td id="estrellas">Estrellas</td>
-            <td id="categoria">Categoria</td>
-            <td id="descripcion">descripcion</td>
+            <td >ID </td>
+            <td >Nombre</td>
+            <td >Estrellas</td>
+            <td >Categoria</td>
+            <td >descripcion</td>
         </tr>
         <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            
+            <td><input type="text" id ="nombre"></td>
+            <td><input type="text" id ="estrellas"></td>
+            <td><input type="text" id ="categoria"></td>
+            <td><input type="text" id ="descripcion"></td>
         </tr>
     </table>
     <table id="table_dc_2">
@@ -203,7 +203,7 @@
                 }
                     idValue = parseInt(textId.value);
                 let arrayFilter = array1.filter((x)=>x.id == idValue)
-                    table_dc_2.innerHTML='<tr class="table_dc_f2"><td>'+  arrayFilter[0].id  +' </td><td>'+  arrayFilter[0].name  +'</td><td>'+  arrayFilter[0].email  +'</td><td>'+  arrayFilter[0].age  +'</td></tr>'             
+                    table_dc_2.innerHTML='<tr class="table_dc_f2"><td>'+  arrayFilter[0].id  +' </td><td>'+  arrayFilter[0].room  +'</td><td>'+  arrayFilter[0].stars  +'</td><td>'+  arrayFilter[0].category_id+'</td><td>' + arrayFilter[0].description+'</td></tr>'             
             })
             ajax.fail(function(g){
                 alert("Ocurrió un error en la consulta, intente de nuevo");
@@ -211,7 +211,7 @@
             });
             
         }
-        //deleteDates NO FUNCIONA
+
         function deleteDates(){
             
             let data = {
@@ -235,14 +235,16 @@
             });
             
         }
-
+        console.log(names.value)
         function putDates(){
             let data = {
+          
                     
                 id:parseInt(textId.value),
-                name:names.value,
-                email:email.value,
-                age:parseInt(age.value)
+                room:names.value,
+                stars:parseInt(estrellas.value),
+                category_id:parseInt(categoria.value),
+                description:descripcion.value,
             
             }
 
@@ -250,7 +252,7 @@
                 type: 'PUT',
                 url: urlOracle,
                 contentType: 'application/json',
-                data: JSON.stringify(data), // access in body
+                data: JSON.stringify(data), 
             }).done(function () {
                 console.log('SUCCESS');
                 window.alert("Datos cambiados satisfactoriamente");
